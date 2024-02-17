@@ -1,26 +1,28 @@
 <template>
     <base-card>
-        <h3>Item Name : {{ item_name }}</h3>
-        <h4>Rate : Rs. {{ item_rate }}</h4>
-        <h5>Quantity Available : {{ item_quantity }}</h5>
-    </base-card>
-    <base-card>
+    <h3>Edit Item</h3>
         <form @submit.prevent="submitForm">
             <div class="form-control">
-                <label for="quantity">Quanitity</label>
-                <input type="number" id="item_quantity" v-model.number="buy_quantity">
+                <label for="item_name">Item name</label>
+                <input type="text" id="item_name" v-model="item_name">
             </div>
             <div class="form-control">
-                <label for=""></label>
+                <label for="item_rate">Item rate (Rs.)</label>
+                <input type="number" id="item_quantity" v-model="item_rate">
             </div>
             <div class="form-control">
-                <label for="message">Additional Instructions</label>
-                <textarea id="message" rows="5" v-model.trim="notes"></textarea>
+                <label for="item_quantity">Quanitity</label>
+                <input type="number" id="item_quantity" v-model.number="item_quantity">
+            </div>
+            <div class="form-control check_box">
+                <label for="item_category">Category</label>
+                <input type="checkbox" value="Fruits and Vegetables" id="item_category" v-model="category"> Fruits and Vegetables
+                <input type="checkbox" value="Meat And Chicken" id="item_category" v-model="category"> Meat And Chicken
+                <input type="checkbox" value="Dairy" id="item_category" v-model="category"> Dairy
             </div>
             <p class="errors" v-if="!formIsValid">Please enter valid data.</p>
             <div class="actions">
-                <h3>Total Amount : Rs. {{ total_amount }}</h3>
-                <base-button>Add to Cart</base-button>
+                <base-button>Update</base-button>
             </div>
         </form>
     </base-card>
@@ -35,38 +37,30 @@ export default {
             item_name: '',
             item_rate: 0,
             item_quantity: 0,
-            buy_quantity: null,
-            total_amount: 0,
-            notes: '',
+            category: [],
             formIsValid: true
-        }
-    },
-    watch: {
-        buy_quantity(){
-            this.total_amount = this.buy_quantity * this.item_rate;
         }
     },
     methods: {
         submitForm() {
             this.formIsValid = true;
-            if (this.buy_quantity === 0  || this.notes === '' || this.buy_quantity > this.item_quantity) {
+            if (this.item_quantity === 0  || this.item_name === '' || this.item_rate <=0 || this.category.length === 0) {
                 console.log("error...")
                 this.formIsValid = false;
                 return;
             }
-            this.$store.dispatch('cart/addToCart', {
-                item_id: this.item_id,
-                item_name: this.item_name,
-                quantity: this.buy_quantity,
-                item_rate: this.item_rate,
-                total_amount: this.total_amount
+            this.$store.dispatch('manager_items/editItem', {
+                id: this.item_id,
+                itemName: this.item_name,
+                quantity: this.item_quantity,
+                rate: this.item_rate,
+                category: this.category
             })
-            this.$router.replace("/home")
+            this.$router.replace("/manager/home")
         },
         get_item_info() {
-            const items = this.$store.getters['items/items'];
+            const items = this.$store.getters['manager_items/managerItems'];
             const item = items.find(it => it.id == this.id);
-            console.log(item)
             if (item) {
                 this.item_id = this.id;
                 this.item_name = item.itemName;
@@ -123,8 +117,14 @@ textarea:focus {
 }
 
 .actions {
-    text-align: center;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
 }
+
+h3{
+    text-align: center;
+    font-size: 1.5rem;
+    color: rgb(21, 31, 15);
+}
+
 </style>

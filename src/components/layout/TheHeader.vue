@@ -3,7 +3,7 @@
     <nav>
       <h1><router-link to="/">Grocery App</router-link></h1>
       <ul>
-        <li>
+        <li v-if="roleOfUser === 'user'">
           <router-link to="/cart">Cart</router-link>
         </li>
         <li>
@@ -20,9 +20,12 @@ export default {
     isLoggedIn() {
       return this.$store.getters.isAuthenticated;
     },
+    roleOfUser() {
+      return this.$store.getters.getUserRole;
+    }
   },
   methods: {
-    logout(){
+    logout() {
       this.$store.dispatch("logout");
       this.$router.replace("/coaches")
     }

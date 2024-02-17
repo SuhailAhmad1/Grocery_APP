@@ -64,10 +64,19 @@ button:active {
   color: #270041;
 }
 
+.red{
+  background-color: rgb(190, 53, 53);
+}
+
+.red:hover{
+  background-color: rgb(129, 0, 0);
+}
+
 .flat:hover,
 .flat:active,
 .outline:hover,
 .outline:active {
   background-color: #edd2ff;
 }
+
 </style>

@@ -7,5 +7,8 @@ export default {
     },
     isAuthenticated(state){
         return !!state.token;
+    },
+    getUserRole(state){
+        return state.user_role;
     }
 }

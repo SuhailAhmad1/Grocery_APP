@@ -1,13 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import ItemList from "./pages/items/ItemList.vue"
-import AddCart from "./pages/cart/AddCart.vue"
-import CartList from "./pages/cart/CartList.vue"
+import ItemList from "./pages/user_pages/items/ItemList.vue"
+import AddCart from "./pages/user_pages/cart/AddCart.vue"
+import CartList from "./pages/user_pages/cart/CartList.vue"
+import NotFound from './pages/NotFound.vue';
 
+import ManagerItem from "./pages/manager_pages/ManagerItem.vue"
+import EditItem from "./pages/manager_pages/EditItem.vue"
+import AddItem from './pages/manager_pages/AddItem.vue'
 // import CoachDetail from './pages/coaches/CoacheDetail.vue';
 // import CoachesList from './pages/coaches/CoachesList.vue';
 // import CoachRegistration from './pages/coaches/CoachRegistration.vue';
-// import NotFound from './pages/NotFound.vue';
 // import ContactCoach from './pages/requests/ContactCoach.vue';
 // import RequestsRecieved from './pages/requests/RequestsRecieve.vue';
 // import UserAuth from "./pages/auth/UserAuth.vue"
@@ -32,11 +35,6 @@ const router = createRouter({
             props: true,
             meta: { requiresAuth: true },
         },
-    //     {
-    //         path: '/register',
-    //         component: CoachRegistration,
-    //         meta: { requiresAuth: true }
-    //     },
         {
             path: '/cart',
             component: CartList,
@@ -48,10 +46,28 @@ const router = createRouter({
     //         meta: { requiresUnauth: true }
     //     },
 
-    //     {
-    //         path: '/:notFound(.*)',
-    //         component: NotFound
-    //     }
+        // Manager Routes
+        {
+            path: '/home/manager',
+            component: ManagerItem,
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/manager/:id/edit',
+            component: EditItem,
+            props: true,
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/manager/addItem',
+            component: AddItem,
+            meta: { requiresAuth: true }
+        },
+
+        {
+            path: '/:notFound(.*)',
+            component: NotFound
+        }
     ]
 });
 
